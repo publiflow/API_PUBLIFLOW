@@ -2,9 +2,7 @@ services:
   api_publiflow:
     container_name: api_publiflow
     image: node:20-alpine
-    working_dir: /app
-    volumes:
-      - ./src:/app
+    build: .
     ports:
       - "3000:3000"
     depends_on:
