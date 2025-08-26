@@ -4,7 +4,7 @@
     "module": "esnext",
     "moduleResolution": "Node",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -20,5 +20,7 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-  }
+  },
+  "include": ["src", "jest.config.ts"],
+  "exclude": ["node_modules", "dist"]
 }
