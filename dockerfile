@@ -9,6 +9,12 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 
+# Prisma client
+RUN npx prisma generate
+
+# Se for dev:
+RUN npx prisma migrate dev --name init
+
 # Expõe a porta
 EXPOSE 3000
 
