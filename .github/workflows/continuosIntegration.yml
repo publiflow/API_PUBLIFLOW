@@ -1,0 +1,16 @@
+#Nome da esteira de CI;
+name: Continuous Integrations
+
+# Define quando o workflow vai funcionar;
+on:
+  # Sempre que houver um push na branch main;
+  push:
+    branches: [main]
+  # Sempre que houver um pull na branch main;
+  pull_request:
+    branches: [main]
+# Trabalho executado;
+jobs:
+  build:
+    # Utilizado a imagem Ubuntu para executar o JOB compatível com o Docker e projeto;
+    runs-on: ubuntu-latest

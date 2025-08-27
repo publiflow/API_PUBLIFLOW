@@ -12,7 +12,7 @@ COPY . .
 # Prisma client
 RUN npx prisma generate
 
-# Se for dev:
+# Migrate do banco
 RUN npx prisma migrate dev --name init
 
 # Expõe a porta
