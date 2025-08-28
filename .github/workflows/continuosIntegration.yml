@@ -1,7 +1,7 @@
-#Nome da esteira de CI;
+# Nome da esteira de CI
 name: Continuous Integrations
 
-# Define quando o workflow vai funcionar;
+# Define quando o workflow vai funcionar
 on:
   # Sempre que houver um push na branch main;
   push:
@@ -9,8 +9,32 @@ on:
   # Sempre que houver um pull na branch main;
   pull_request:
     branches: [main]
-# Trabalho executado;
+
+# Trabalho executado
 jobs:
   build:
     # Utilizado a imagem Ubuntu para executar o JOB compatível com o Docker e projeto;
     runs-on: ubuntu-latest
+    steps:
+      - name: Checar repositório
+        # usa uma ação pronta do GitHub - faz o checkout do código do repositório para o ambiente do runner, ou seja, traz o código para dentro da máquina virtual onde o workflow roda.
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        # ação oficial para instalar Node.js.
+        uses: actions/setup-node@v3
+        with:
+          # define a versão do Node.js que será usada (aqui, v20).
+          node-version: 20
+
+      - name: Instalar dependências
+        # instala todas as dependências do projeto listadas no package.json
+        run: npm install
+          
+        # instala o Client do Prisma para conversar com o banco.
+      - name: Gerar Prisma Client
+        run: npx prisma generate
+
+      - name: Rodar testes
+        # comando definido no package.json para rodar testes
+        run: npm test
