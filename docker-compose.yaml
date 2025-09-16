@@ -1,12 +1,15 @@
 services:
   api_publiflow:
     container_name: api_publiflow
-    image: node:20-alpine
     build: .
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - db_publiflow
+    command: sh -c "npx prisma migrate dev && npx prisma db seed && npm run dev"
+    volumes:
+      - ./:/app
+      - /app/node_modules
 
   pgadmin:
     image: dpage/pgadmin4
@@ -15,7 +18,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
-      - "8080:80"
+      - '8080:80'
     depends_on:
       - db_publiflow
 
@@ -27,7 +30,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
