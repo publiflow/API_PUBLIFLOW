@@ -1,12 +1,11 @@
 import { Router } from 'express';
 import userRoutes from './userRoutes.js';
+import postagemRoutes from './postagemRoutes.js';
 
 const router = Router();
 
-/**
- * Adiciona as rotas de usuário ao roteador principal
- */
 router.use(userRoutes);
+router.use(postagemRoutes);
 
 export default router;
 
