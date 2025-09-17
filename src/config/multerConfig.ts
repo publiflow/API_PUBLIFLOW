@@ -10,6 +10,9 @@ const __dirname = path.dirname(__filename);
 // Define o diretório de uploads relativo à raiz do projeto
 const uploadsFolder = path.resolve(__dirname, '..', '..', 'uploads');
 
+/**
+ * Configuração do Multer para upload de arquivos
+ */
 export default {
   directory: uploadsFolder,
   storage: multer.diskStorage({
@@ -36,3 +39,4 @@ export default {
     }
   },
 };
+

@@ -6,7 +6,10 @@ import multerConfig from '../config/multerConfig.js';
 
 class PostagemService {
   /**
-   * Cria uma nova postagem.
+   *
+   * @param data Dados da nova postagem, exceto ID e data de publicação
+   * @returns
+   * Cria uma nova postagem no banco de dados.
    */
   public async createPost(
     data: Omit<PF_postagem, 'id' | 'dataPublicacao'>,
@@ -17,7 +20,11 @@ class PostagemService {
   }
 
   /**
-   * Atualiza uma postagem.
+   *
+   * @param id ID da postagem a ser atualizada
+   * @param data
+   * @returns
+   * Atualiza uma postagem existente. Se uma nova imagem for fornecida, a imagem antiga será removida do servidor.
    */
   public async updatePost(
     id: number,
@@ -47,7 +54,10 @@ class PostagemService {
   }
 
   /**
-   * Deleta uma postagem e sua imagem associada.
+   *
+   * @param id ID da postagem a ser deletada
+   * @returns void
+   * Deleta uma postagem e a imagem associada, se existir.
    */
   public async deletePost(id: number): Promise<void> {
     const postagem = await prisma.pF_postagem.findUnique({
@@ -65,23 +75,44 @@ class PostagemService {
       }
     }
 
-    // Apaga o registro do banco de dados
     await prisma.pF_postagem.delete({
       where: { id },
     });
   }
 
-  // --- Métodos que não precisam de alteração ---
-
+  /**
+   *
+   * @returns Lista de todas as postagens
+   * Retorna todas as postagens do banco de dados.
+   */
   public async getAllPosts(): Promise<PF_postagem[]> {
     return prisma.pF_postagem.findMany();
   }
 
+  /**
+   *
+   * @param id ID da postagem a ser buscada
+   * @returns
+   * Retorna uma postagem específica pelo ID.
+   */
   public async getPostById(id: number): Promise<PF_postagem | null> {
     return prisma.pF_postagem.findUnique({
       where: { id },
     });
   }
+
+  /**
+   *
+   * @returns Lista de postagens visíveis ordenadas por data de publicação
+   * Retorna as postagens visíveis ordenadas por data de publicação (mais recentes primeiro).
+   */
+  public async getFeedPosts(): Promise<PF_postagem[]> {
+    return prisma.pF_postagem.findMany({
+      where: { visibilidade: true },
+      orderBy: { dataPublicacao: 'desc' },
+    });
+  }
 }
 
 export default new PostagemService();
+

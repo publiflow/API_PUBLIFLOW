@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mainRouter from './routes/index.js';
-import path from 'path'; // Importe o 'path'
-import { fileURLToPath } from 'url'; // Importe para resolver o __dirname
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 //-- Importe o swagger-ui e a sua configuração
 import swaggerUi from 'swagger-ui-express';
@@ -38,3 +38,4 @@ app.listen(PORT, () => {
     `Documentação da API disponível em http://localhost:${PORT}/api-docs`,
   );
 });
+

@@ -42,9 +42,24 @@ const upload = multer(multerConfig);
  *         description: Postagem criada com sucesso
  *       400:
  *         description: Dados inválidos
+ * /posts/feed:
+ *   get:
+ *     summary: Lista o feed de postagens
+ *     description: Retorna as postagens ordenadas por data de publicação (mais recentes primeiro).
+ *     tags: [Postagens]
+ *     responses:
+ *       200:
+ *         description: Feed de postagens
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Postagem'
  */
 router.get('/posts', PostagemController.getAll);
 router.post('/posts', upload.single('imagem'), PostagemController.create);
+router.get('/posts/feed', PostagemController.getFeed);
 
 /**
  * @swagger

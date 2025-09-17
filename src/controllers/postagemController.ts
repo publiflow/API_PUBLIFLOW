@@ -3,7 +3,11 @@ import PostagemService from '../services/postagemService.js';
 
 class PostagemController {
   /**
-   * Função para criar uma nova postagem com imagem.
+   *
+   * @param req
+   * @param res
+   * @returns
+   * Função para criar uma nova postagem.
    */
   public async create(req: Request, res: Response) {
     try {
@@ -34,7 +38,11 @@ class PostagemController {
   }
 
   /**
-   * Função para atualizar uma postagem.
+   *
+   * @param req
+   * @param res
+   * @returns
+   * Função para atualizar uma postagem existente.
    */
   public async update(req: Request, res: Response) {
     const { id } = req.params;
@@ -46,7 +54,6 @@ class PostagemController {
     try {
       const dadosParaAtualizar: { [key: string]: any } = { ...req.body };
 
-      // Se uma nova imagem foi enviada, adiciona o caminho dela ao objeto de atualização
       if (req.file) {
         dadosParaAtualizar.caminhoImagem = req.file.filename;
       }
@@ -72,8 +79,13 @@ class PostagemController {
     }
   }
 
-  // --- Os métodos abaixo não precisam de alterações ---
-
+  /**
+   *
+   * @param req
+   * @param res
+   * @returns
+   * Função para obter todas as postagens.
+   */
   public async getAll(req: Request, res: Response) {
     try {
       const posts = await PostagemService.getAllPosts();
@@ -83,6 +95,13 @@ class PostagemController {
     }
   }
 
+  /**
+   *
+   * @param req
+   * @param res
+   * @returns
+   * Função para obter uma postagem por ID.
+   */
   public async getById(req: Request, res: Response) {
     const { id } = req.params;
 
@@ -102,6 +121,13 @@ class PostagemController {
     }
   }
 
+  /**
+   *
+   * @param req
+   * @param res
+   * @returns
+   * Função para deletar uma postagem por ID.
+   */
   public async delete(req: Request, res: Response) {
     const { id } = req.params;
 
@@ -119,6 +145,23 @@ class PostagemController {
       res.status(500).json({ message: error.message });
     }
   }
+
+  /**
+   *
+   * @param req
+   * @param res
+   * @returns
+   * Função para obter o feed de postagens visíveis.
+   */
+  public async getFeed(req: Request, res: Response) {
+    try {
+      const posts = await PostagemService.getFeedPosts();
+      res.status(200).json(posts);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 }
 
 export default new PostagemController();
+
