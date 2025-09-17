@@ -10,6 +10,7 @@ services:
     volumes:
       - ./:/app
       - /app/node_modules
+      - uploads_data:/app/uploads
 
   pgadmin:
     image: dpage/pgadmin4
@@ -36,4 +37,6 @@ services:
 
 volumes:
   postgres_data:
+    driver: local
+  uploads_data:
     driver: local
