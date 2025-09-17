@@ -112,6 +112,25 @@ class PostagemService {
       orderBy: { dataPublicacao: 'desc' },
     });
   }
+
+  /**
+   *
+   * @param query Termo de busca para filtrar postagens por título ou descrição
+   * @returns
+   * Retorna postagens visíveis que correspondem ao termo de busca no título ou descrição.
+   */
+  public async searchPosts(query: string): Promise<PF_postagem[]> {
+    return prisma.pF_postagem.findMany({
+      where: {
+        visibilidade: true,
+        OR: [
+          { titulo: { contains: query, mode: 'insensitive' } },
+          { descricao: { contains: query, mode: 'insensitive' } },
+        ],
+      },
+      orderBy: { dataPublicacao: 'desc' },
+    });
+  }
 }
 
 export default new PostagemService();

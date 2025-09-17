@@ -161,6 +161,24 @@ class PostagemController {
       res.status(500).json({ message: error.message });
     }
   }
+
+  /**
+   *
+   * @param req
+   * @param res
+   * @returns
+   * Função para buscar postagens por termo de busca.
+   */
+  public async search(req: Request, res: Response) {
+    const { q } = req.query;
+
+    try {
+      const posts = await PostagemService.searchPosts(q as string);
+      res.status(200).json(posts);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 }
 
 export default new PostagemController();

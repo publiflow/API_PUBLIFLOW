@@ -56,10 +56,34 @@ const upload = multer(multerConfig);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Postagem'
+ * /posts/search:
+ *   get:
+ *     summary: Busca postagens por termo
+ *     description: Retorna postagens que correspondem ao termo de busca no título ou descrição.
+ *     tags: [Postagens]
+ *     parameters:
+ *       - in: query
+ *         name: q
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Termo de busca
+ *     responses:
+ *       200:
+ *         description: Resultados da busca
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Postagem'
+ *       400:
+ *         description: Termo de busca não fornecido ou inválido
  */
 router.get('/posts', PostagemController.getAll);
 router.post('/posts', upload.single('imagem'), PostagemController.create);
 router.get('/posts/feed', PostagemController.getFeed);
+router.get('/posts/search', PostagemController.search);
 
 /**
  * @swagger
