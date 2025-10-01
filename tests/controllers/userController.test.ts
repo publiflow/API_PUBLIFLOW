@@ -73,7 +73,7 @@ describe("Testando rota /api/users", () => {
     nome: 'João',
     sobrenome: 'Gomes',
     telefone: '11942567718',
-    email: 'joaozinho@gmail.com',
+    email: 'joaozinho@gmail.com.br',
     papelUsuarioID: 1,
     senha: '123456',
     dataCadastro: new Date(2025, 8, 28)
