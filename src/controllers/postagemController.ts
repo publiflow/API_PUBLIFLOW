@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import PostagemService from '../services/postagemService.js';
+import PostagemService from '../services/postagemService';
 
 class PostagemController {
   /**

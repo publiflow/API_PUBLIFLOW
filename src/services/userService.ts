@@ -1,4 +1,4 @@
-import { prisma } from '../database/prisma.js';
+import { prisma } from '../database/prisma';
 import type { PF_usuario } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
