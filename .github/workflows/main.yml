@@ -1,0 +1,18 @@
+name: Deploy Publiflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build application
+        run: npm run build
+
+      - name: Run tests 
+        run: npm run test
+    
