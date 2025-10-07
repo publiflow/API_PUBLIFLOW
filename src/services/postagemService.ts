@@ -1,8 +1,8 @@
-import { prisma } from '../database/prisma.js';
+import { prisma } from '../database/prisma';
 import type { PF_postagem } from '@prisma/client';
 import fs from 'fs';
 import path from 'path';
-import multerConfig from '../config/multerConfig.js';
+import multerConfig from '../config/multerConfig';
 
 class PostagemService {
   /**

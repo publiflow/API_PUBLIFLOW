@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import userRoutes from './userRoutes.js';
-import postagemRoutes from './postagemRoutes.js';
+import userRoutes from './userRoutes';
+import postagemRoutes from './postagemRoutes';
 
 const router = Router();
 

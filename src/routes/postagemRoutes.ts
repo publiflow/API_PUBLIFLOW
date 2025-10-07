@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import PostagemController from '../controllers/postagemController.js';
+import PostagemController from '../controllers/postagemController';
 import multer from 'multer';
-import multerConfig from '../config/multerConfig.js';
+import multerConfig from '../config/multerConfig';
 
 const router = Router();
 const upload = multer(multerConfig);

@@ -4,8 +4,8 @@ import { randomBytes } from 'crypto';
 import { fileURLToPath } from 'url';
 
 // Workaround para __dirname em ES Modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+//const __filename = fileURLToPath(import.meta.url);
+//const __dirname = path.dirname(__filename);
 
 // Define o diretório de uploads relativo à raiz do projeto
 const uploadsFolder = path.resolve(__dirname, '..', '..', 'uploads');

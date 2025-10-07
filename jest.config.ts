@@ -7,10 +7,11 @@ const config: Config = {
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
+  roots: ["./"],
   moduleFileExtensions: ['ts', 'js', 'json', 'node'], 
   transform: {
     '^.+\\.ts$': 'ts-jest',
   },
 };
 
-export default config;
+export = config;
