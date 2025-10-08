@@ -1,12 +1,13 @@
-import request from "supertest";
-import app from "../../src/index";
-import {prisma} from "../../src/database/prisma";
+import request from 'supertest';
+import app from '../../src/index';
+import { prisma } from '../../src/database/prisma';
 import path from 'path';
 import fs from 'fs';
 
 let authorId: number;
 
 beforeEach(async () => {
+  // Ordem de deleção corrigida para evitar erro de chave estrangeira
   await prisma.pF_postagem.deleteMany({});
   await prisma.pF_usuario.deleteMany({});
   await prisma.pF_papelUsuario.deleteMany({});
@@ -24,12 +25,11 @@ beforeEach(async () => {
       senha: '123',
     },
   });
-  authorId = author.id; 
+  authorId = author.id;
 });
 
-describe("Testando rota /api/posts", () => {
-  it("Criação de post", async () => {
-
+describe('Testando rota /api/posts', () => {
+  it('Criação de post', async () => {
     const imagePath = path.join(__dirname, '..', 'assets', 'test-image.png');
 
     if (!fs.existsSync(imagePath)) {
@@ -40,6 +40,7 @@ describe("Testando rota /api/posts", () => {
     }
 
     const response = await request(app)
+      // Adicionada a barra inicial '/'
       .post('/api/posts')
       .field('titulo', 'Post criativo')
       .field('descricao', 'Esta é a descrição do meu primeiro post.')
@@ -47,19 +48,20 @@ describe("Testando rota /api/posts", () => {
       .field('autorID', authorId.toString())
       .attach('imagem', imagePath);
 
-      expect(response.status).toBe(201);
-      expect(response.body.autorID).toEqual(authorId);
-      expect(response.body.titulo).toEqual("Post criativo");
+    expect(response.status).toBe(201);
+    expect(response.body.autorID).toEqual(authorId);
+    expect(response.body.titulo).toEqual('Post criativo');
   });
 
-  it("Lista todos os posts", async () => {
-    const response = await request(app).get("api/posts");
+  it('Lista todos os posts', async () => {
+    // Adicionada a barra inicial '/'
+    const response = await request(app).get('/api/posts');
 
     expect(response.statusCode).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
   });
 
-   it("Busca post por id", async () => {
+  it('Busca post por id', async () => {
     const postData = await prisma.pF_postagem.create({
       data: {
         titulo: 'teste',
@@ -70,13 +72,14 @@ describe("Testando rota /api/posts", () => {
       },
     });
 
-    const response = await request(app).get(`api/posts/${postData.id}`);
+    // Adicionada a barra inicial '/'
+    const response = await request(app).get(`/api/posts/${postData.id}`);
 
     expect(response.statusCode).toBe(200);
     expect(response.body.id).toEqual(postData.id);
   });
 
-   it("Atualizar post", async () => {
+  it('Atualizar post', async () => {
     const postData = await prisma.pF_postagem.create({
       data: {
         titulo: 'teste',
@@ -86,18 +89,21 @@ describe("Testando rota /api/posts", () => {
         autorID: authorId,
       },
     });
-    
-    const updatedPostData = {
-      descricao: "descrição da postagem atualizada",
-    }
 
-    const response = await request(app).put(`api/posts/${postData.id}`).send(updatedPostData);
+    const updatedPostData = {
+      descricao: 'descrição da postagem atualizada',
+    };
+
+    // Adicionada a barra inicial '/'
+    const response = await request(app)
+      .put(`/api/posts/${postData.id}`)
+      .send(updatedPostData);
 
     expect(response.statusCode).toBe(200);
     expect(response.body.descricao).toBe(updatedPostData.descricao);
-    });
+  });
 
-    it("Deletar post", async () => {
+  it('Deletar post', async () => {
     const postData = await prisma.pF_postagem.create({
       data: {
         titulo: 'teste',
@@ -108,12 +114,13 @@ describe("Testando rota /api/posts", () => {
       },
     });
 
-    const response = await request(app).delete(`api/posts/${postData.id}`);
+    // Adicionada a barra inicial '/'
+    const response = await request(app).delete(`/api/posts/${postData.id}`);
 
     expect(response.statusCode).toBe(204);
-    });
+  });
 
-    it("Listar feed com postagens visiveis", async () => {
+  it('Listar feed com postagens visiveis', async () => {
     const postData = await prisma.pF_postagem.create({
       data: {
         titulo: 'teste',
@@ -123,15 +130,15 @@ describe("Testando rota /api/posts", () => {
         autorID: authorId,
       },
     });
-    
-    const response = await request(app).get(`api/posts/feed`);
+
+    const response = await request(app).get(`/api/posts/feed`);
 
     expect(response.statusCode).toBe(200);
     expect(response.body[0].id).toEqual(postData.id);
     expect(Array.isArray(response.body)).toBe(true);
-    });
- 
-    it("Busca post por titulo ou descrição", async () => {
+  });
+
+  it('Busca post por titulo ou descrição', async () => {
     const postData = await prisma.pF_postagem.create({
       data: {
         titulo: 'titulo criativo',
@@ -141,10 +148,13 @@ describe("Testando rota /api/posts", () => {
         autorID: authorId,
       },
     });
-    
-    const response = await request(app).get(`api/posts/search`).query("titulo criativo");
+
+    const response = await request(app)
+      .get(`/api/posts/search`)
+      .query({ q: 'titulo criativo' });
 
     expect(response.statusCode).toBe(200);
     expect(response.body[0].id).toEqual(postData.id);
-    });
+  });
 });
+
